@@ -1,0 +1,19 @@
+.array-bar {
+  display: inline-block;
+  width: 8px;
+  margin: auto;
+  margin-left: 2px;
+  margin-right: 2px;
+  background: lightseagreen;
+  position: relative;
+  vertical-align: middle;
+  padding: 0px;
+  line-height: 0px;
+  writing-mode: vertical-lr;
+}
+
+.array-container {
+  margin: auto;
+  margin-top: 3vh;
+  position: relative;
+}
