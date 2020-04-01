@@ -10,10 +10,52 @@
   padding: 0px;
   line-height: 0px;
   writing-mode: vertical-lr;
+  color: red;
+  font-size: 15px;
 }
 
 .array-container {
   margin: auto;
   margin-top: 3vh;
   position: relative;
+}
+
+.Control-bar {
+  background: turquoise;
+  border-radius: 10px;
+  width: 80%;
+  height: 100px;
+  margin: auto;
+  margin-top: 2px;
+  margin-bottom: 0px;
+  color: red;
+  font-family: Montserrat, sans-serif;
+}
+
+#title {
+  float: left;
+  margin: 0;
+  margin-top: 10px;
+}
+
+h3 {
+  font-size: 40px;
+  margin: 0;
+  float: left;
+}
+
+.inner-info {
+  background: cornflowerblue;
+  height: 100px;
+  border-radius: 10px;
+  width: 100%;
+  clip-path: circle(4% at 35% 25%);
+}
+
+p {
+  margin: 0;
+  float: left;
+}
+button {
+  vertical-align: middle;
 }

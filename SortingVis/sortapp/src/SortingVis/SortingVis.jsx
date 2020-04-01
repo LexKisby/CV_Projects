@@ -1,5 +1,6 @@
 import React from "react";
 import "./SortingVis.css";
+import * as sortingAlgorithms from "../sortingAlgorithms/sortalg.js";
 
 export default class SortingVis extends React.Component {
   constructor(props) {
@@ -22,19 +23,100 @@ export default class SortingVis extends React.Component {
       shuffle(array);
     } else {
       for (let x = 1; x < 101; x++) {
-        array.push(between(5, 1000));
+        array.push(between(5, 800));
       }
     }
     this.setState({ array });
   }
+  bubble() {}
+
+  quick() {}
+
+  merge() {
+    const animations = sortingAlgorithms.mergeSort(this.state.array);
+    const newAnimations = [];
+    for (const animation of animations) {
+      newAnimations.push(animation.comparison);
+      newAnimations.push(animation.comparison);
+      newAnimations.push(animation.write);
+    }
+    for (let i = 0; i < newAnimations.length; i++) {
+      const arraybars = document.getElementsByClassName("array-bar");
+      const isColourChange = i % 3 !== 2;
+      if (isColourChange) {
+        const [barOneIdx, barTwoIdx] = newAnimations[i];
+        const barOneStyle = arraybars[barOneIdx].style;
+        const barTwoStyle = arraybars[barTwoIdx].style;
+        const colour = i % 3 === 0 ? "red" : "lightseagreen";
+        setTimeout(() => {
+          barOneStyle.backgroundColor = colour;
+          barTwoStyle.backgroundColor = colour;
+        }, i * 4);
+      } else {
+        setTimeout(() => {
+          const [barOneIdx, newHeight] = newAnimations[i];
+          const barOneStyle = arraybars[barOneIdx].style;
+          arraybars[barOneIdx].innerHTML = `${newHeight / 8}`;
+          barOneStyle.height = `${newHeight}px`;
+        }, i * 4);
+      }
+    }
+  }
+
   render() {
     const { array } = this.state;
 
     return (
       <>
         <div className="Control-bar">
-          <h3>Control Bar</h3>
-          <p>The controls are all here</p>
+          <div className="row">
+            <div id="title" className="col-sm-2">
+              <h3>Control Bar</h3>
+              <p>The controls are all here</p>
+            </div>
+
+            <div className="inner-reset col-sm-2">
+              <button
+                className="btn btn-outline-danger"
+                onClick={() => this.resetArray(1)}
+              >
+                Reset Array
+              </button>
+            </div>
+            <div className="inner-alg col-sm-4">
+              <h5>Algorithm type</h5>
+              <div className="btn-group btn-group-sm" role="group">
+                <button
+                  type="button"
+                  className="btn btn-outline-danger btn-sm"
+                  onClick={() => this.merge()}
+                >
+                  Merge
+                </button>
+                <button
+                  type="button"
+                  className="btn btn-outline-danger btn-sm"
+                  onClick={() => this.bubble()}
+                >
+                  Bubble
+                </button>
+                <button
+                  type="button"
+                  className="btn btn-outline-danger btn-sm"
+                  onClick={() => this.quick()}
+                >
+                  QuickSort
+                </button>
+              </div>
+            </div>
+            <div className="inner-insert col-sm-3">
+              <p>
+                {" "}
+                Insert your own array here. Recommended length less than 150{" "}
+              </p>
+            </div>
+            <div className="inner-info col-sm-1"></div>
+          </div>
         </div>
         <div className="array-container">
           {array.map((value, idx) => (
@@ -43,7 +125,7 @@ export default class SortingVis extends React.Component {
               key={idx}
               style={{ height: `${value}px` }}
             >
-              {value}
+              {value / 8}
             </div>
           ))}
         </div>
