@@ -45,3 +45,36 @@ function doMerge(mainArray, startIdx, middleIdx, endIdx, auxArray, animations) {
     mainArray[k++] = auxArray[j++];
   }
 }
+
+export function bubbleSort(array) {
+  const animations = [];
+  if (array.length <= 1) return array;
+  var n = array.length;
+  var newn = 0;
+  while (n > 0) {
+    newn = 0;
+    for (let i = 1; i < n; i++) {
+      if (array[i - 1] > array[i]) {
+        swap(array, i - 1, i);
+        animations.push({
+          comparison: [i - 1, i],
+          swap: [i - 1, array[i], i, array[i - 1]]
+        });
+        newn = i;
+      } else {
+        animations.push({
+          comparison: [i - 1, i],
+          swap: [i, array[i], i, array[i]]
+        });
+      }
+    }
+    n = newn;
+  }
+  return animations;
+}
+
+function swap(array, IdxOne, IdxTwo) {
+  var temp = array[IdxTwo];
+  array[IdxTwo] = array[IdxOne];
+  array[IdxOne] = temp;
+}

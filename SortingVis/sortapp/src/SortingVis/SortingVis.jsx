@@ -28,7 +28,47 @@ export default class SortingVis extends React.Component {
     }
     this.setState({ array });
   }
-  bubble() {}
+  bubble() {
+    const animations = sortingAlgorithms.bubbleSort(this.state.array);
+    const newAnimations = [];
+    for (const animation of animations) {
+      newAnimations.push(animation.comparison);
+      newAnimations.push(animation.comparison);
+      newAnimations.push(animation.swap);
+    }
+    console.log(newAnimations);
+    for (let i = 0; i < newAnimations.length; i++) {
+      const arraybars = document.getElementsByClassName("array-bar");
+      const isColourChange = i % 3 !== 2;
+      if (isColourChange) {
+        const [barOneIdx, barTwoIdx] = newAnimations[i];
+        const barOneStyle = arraybars[barOneIdx].style;
+        const barTwoStyle = arraybars[barTwoIdx].style;
+        const colour = i % 3 === 0 ? "red" : "lightseagreen";
+        setTimeout(() => {
+          barOneStyle.backgroundColor = colour;
+          barTwoStyle.backgroundColor = colour;
+        }, i * 1);
+      } else {
+        setTimeout(() => {
+          const [
+            barOneIdx,
+            barOneHeight,
+            barTwoIdx,
+            barTwoHeight
+          ] = newAnimations[i];
+          const temp = arraybars[barOneIdx].style;
+          const tempn = arraybars[barOneIdx].innerHTML;
+          arraybars[barOneIdx].style = arraybars[barTwoIdx].style;
+          arraybars[barOneIdx].style.height = `${barTwoHeight}px`;
+          arraybars[barOneIdx].innerHTML = arraybars[barTwoIdx].innerHTML;
+          arraybars[barTwoIdx].style = temp;
+          arraybars[barTwoIdx].style.height = `${barOneHeight}px`;
+          arraybars[barTwoIdx].innerHTML = tempn;
+        }, i * 1);
+      }
+    }
+  }
 
   quick() {}
 
@@ -40,6 +80,7 @@ export default class SortingVis extends React.Component {
       newAnimations.push(animation.comparison);
       newAnimations.push(animation.write);
     }
+    console.log(newAnimations);
     for (let i = 0; i < newAnimations.length; i++) {
       const arraybars = document.getElementsByClassName("array-bar");
       const isColourChange = i % 3 !== 2;
