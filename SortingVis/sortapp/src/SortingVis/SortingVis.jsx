@@ -11,23 +11,37 @@ export default class SortingVis extends React.Component {
   }
 
   componentDidMount() {
-    this.resetArray(1);
+    this.resetArray(1, []);
   }
 
-  resetArray(contiguous) {
+  resetArray(code, arr) {
     const array = [];
-    if (contiguous) {
+    if (code === 1) {
       for (let x = 1; x < 101; x++) {
         array.push(x * 8);
       }
       shuffle(array);
-    } else {
+    } else if (code === 0) {
       for (let x = 1; x < 101; x++) {
         array.push(between(5, 800));
+      }
+    } else if (code === 2) {
+      for (const element of arr) {
+        array.push(element * 8);
       }
     }
     this.setState({ array });
   }
+
+  insertList() {
+    var insert = document.getElementsByClassName("form-control");
+    console.log(insert[0].value);
+    console.log(typeof insert[0].value);
+    console.log(JSON.parse(insert[0].value));
+    var insertlist = JSON.parse(insert[0].value);
+    this.resetArray(2, insertlist);
+  }
+
   bubble() {
     const animations = sortingAlgorithms.bubbleSort(this.state.array);
     const newAnimations = [];
@@ -70,7 +84,56 @@ export default class SortingVis extends React.Component {
     }
   }
 
-  quick() {}
+  quick() {
+    const animations = sortingAlgorithms.quickSort(this.state.array);
+    console.log(animations);
+    let i = 0;
+    const arraybars = document.getElementsByClassName("array-bar");
+    for (const animation of animations) {
+      i++;
+      const code = animation[0];
+      if (code === 0) {
+        const idx = animation[1];
+        const barStyle = arraybars[idx].style;
+        setTimeout(() => {
+          barStyle.backgroundColor = "orange";
+        }, i * 3);
+      } else if (code === 1) {
+        const idx = animation[1];
+        const barStyle = arraybars[idx].style;
+        setTimeout(() => {
+          barStyle.backgroundColor =
+            barStyle.backgroundColor === "lightseagreen"
+              ? "red"
+              : "lightseagreen";
+        }, i * 3);
+      } else if (code === 2) {
+        const leftIdx = animation[1];
+        const leftVal = animation[2];
+        const rightIdx = animation[3];
+        const rightVal = animation[4];
+        const barOneStyle = arraybars[leftIdx].style;
+        const barTwoStyle = arraybars[rightIdx].style;
+        setTimeout(() => {
+          barOneStyle.height = `${rightVal}px`;
+          barTwoStyle.height = `${leftVal}px`;
+          arraybars[leftIdx].innerHTML = `${rightVal / 8}`;
+          arraybars[rightIdx].innerHTML = `${leftVal / 8}`;
+        }, i * 3);
+      } else if (code === 3) {
+        setTimeout(() => {
+          const idx = animation[1];
+          arraybars[idx].style.backgroundColor = "purple";
+        }, i * 3);
+      }
+    }
+    for (let y = 0; y < this.state.array.length; y++) {
+      i++;
+      setTimeout(() => {
+        arraybars[y].style.backgroundColor = "lightseagreen";
+      }, i * 3);
+    }
+  }
 
   merge() {
     const animations = sortingAlgorithms.mergeSort(this.state.array);
@@ -80,7 +143,6 @@ export default class SortingVis extends React.Component {
       newAnimations.push(animation.comparison);
       newAnimations.push(animation.write);
     }
-    console.log(newAnimations);
     for (let i = 0; i < newAnimations.length; i++) {
       const arraybars = document.getElementsByClassName("array-bar");
       const isColourChange = i % 3 !== 2;
@@ -119,7 +181,7 @@ export default class SortingVis extends React.Component {
             <div className="inner-reset col-sm-2">
               <button
                 className="btn btn-outline-danger"
-                onClick={() => this.resetArray(1)}
+                onClick={() => this.resetArray(1, [])}
               >
                 Reset Array
               </button>
@@ -150,13 +212,26 @@ export default class SortingVis extends React.Component {
                 </button>
               </div>
             </div>
-            <div className="inner-insert col-sm-3">
-              <p>
-                {" "}
-                Insert your own array here. Recommended length less than 150{" "}
-              </p>
+            <div className="inner-insert col-sm-2">
+              <div className="md-form">
+                <textarea
+                  type="text"
+                  id="insert"
+                  name="message"
+                  rows="2"
+                  className="form-control md-textarea"
+                ></textarea>
+                <label htmlFor="message">Insert a list here</label>
+              </div>
             </div>
-            <div className="inner-info col-sm-1"></div>
+            <div className="col-sm-1">
+              <button
+                className="btn btn-outline-danger"
+                onClick={() => this.insertList()}
+              >
+                Insert
+              </button>
+            </div>
           </div>
         </div>
         <div className="array-container">

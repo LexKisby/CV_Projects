@@ -78,3 +78,50 @@ function swap(array, IdxOne, IdxTwo) {
   array[IdxTwo] = array[IdxOne];
   array[IdxOne] = temp;
 }
+
+export function quickSort(
+  array,
+  leftIdx = 0,
+  rightIdx = array.length - 1,
+  animations = []
+) {
+  console.log(array);
+  if (leftIdx >= rightIdx) {
+    animations.push([3, leftIdx]);
+    console.log("leaf");
+    return;
+  }
+  const pivotIdx = Math.floor((leftIdx + rightIdx) / 2);
+  const Idx = hPartition(array, leftIdx, rightIdx, pivotIdx, animations);
+  quickSort(array, leftIdx, Idx - 1, animations);
+  quickSort(array, Idx, rightIdx, animations);
+  console.log("done");
+  console.log(array);
+  return animations;
+}
+
+function hPartition(array, leftIdx, rightIdx, pivotIdx, animations) {
+  const pivot = array[pivotIdx];
+  animations.push([0, pivotIdx]);
+  while (leftIdx <= rightIdx) {
+    while (array[leftIdx] < pivot && leftIdx <= rightIdx) {
+      animations.push([1, leftIdx]);
+      animations.push([1, leftIdx]);
+      leftIdx++;
+    }
+    while (array[rightIdx] > pivot) {
+      animations.push([1, rightIdx]);
+      animations.push([1, rightIdx]);
+      rightIdx--;
+    }
+    if (leftIdx <= rightIdx) {
+      animations.push([2, leftIdx, array[leftIdx], rightIdx, array[rightIdx]]);
+      [array[leftIdx], array[rightIdx]] = [array[rightIdx], array[leftIdx]];
+      console.log(array);
+      leftIdx++;
+      rightIdx--;
+    }
+  }
+  animations.push([3, pivotIdx]);
+  return leftIdx;
+}
