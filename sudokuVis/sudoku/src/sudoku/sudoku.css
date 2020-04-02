@@ -1,0 +1,56 @@
+#j {
+  background-image: url(https://i.imgur.com/n7vSzAS.jpg);
+  background-size: 2000px 1300px;
+  height: 95vh;
+  padding: 10px;
+  margin: 10px;
+  border-radius: 7px;
+}
+
+hr {
+  border-color: white;
+}
+
+#control {
+  margin-top: 5vh;
+  border-radius: 7px;
+  background-color: darkgoldenrod;
+  opacity: 0.8;
+}
+
+#sudoku1 {
+  height: 52vh;
+  width: 52vh;
+  border-radius: 4px;
+  background-color: grey;
+  opacity: 0.9;
+  margin: auto;
+}
+
+#sudoku2 {
+  height: 52vh;
+  width: 52vh;
+  border-radius: 4px;
+  background-color: grey;
+  opacity: 0.9;
+  margin: auto;
+}
+
+.cell {
+  height: 50px;
+  width: 50px;
+  border-color: black;
+  border-width: 7px;
+  background-color: white;
+  margin: 2px;
+  cursor: pointer;
+}
+
+.grid {
+  margin: auto;
+  margin-top: 10px;
+}
+
+h2 {
+  color: black;
+}

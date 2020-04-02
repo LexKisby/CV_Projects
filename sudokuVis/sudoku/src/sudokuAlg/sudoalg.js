@@ -1,23 +1,30 @@
-export function backTrack(seedarr, array) {
+export function backTrack(OGnums, array) {
   //9x9 array.
-  const OGnums = seedarr.slice();
-  array = seedarr.slice();
+
+  console.log("OGnums:", OGnums);
+  for (let p = 0; p < 9; p++) {
+    array.push(OGnums[p].slice());
+  }
+  console.log(array);
   var i = 0;
   var j = 0;
   var k = 0;
   var solved = false;
   var comparisons = 0;
+  var testing;
+  var backtracking = false;
   while (solved === false) {
-    console.log(comparisons++);
-    [i, j] = Next(array, i, j);
-
+    comparisons++;
+    if (backtracking) {
+    } else {
+      [i, j] = Next(array, i, j);
+    }
     if (i === false) {
+      console.log("solved");
       solved = true;
       continue;
     }
     k = look(array, i, j) + 1;
-    var testing;
-    var backtracking;
     if (k > 9) {
       testing = false;
       backtracking = true;
@@ -26,7 +33,7 @@ export function backTrack(seedarr, array) {
       backtracking = false;
     }
     while (testing) {
-      console.log(k, j, comparisons++);
+      comparisons++;
       testing = test(array, i, j, k);
       if (k === 9 && testing === true) {
         testing = false;
@@ -45,6 +52,7 @@ export function backTrack(seedarr, array) {
       }
     }
   }
+  console.log(comparisons);
   return array;
 }
 function test(array, i, j, k) {
@@ -67,7 +75,6 @@ function test(array, i, j, k) {
       square.push(array[x][y]);
     }
   }
-  console.log("square", square);
   for (const num of square) {
     if (k === num) {
       return true;
@@ -80,13 +87,10 @@ function Prev(array, OG, i, j) {
   var found = false;
   while (found === false) {
     [i, j] = state(-1, i, j);
-    console.log("prevstate");
     if (i === -1) {
-      console.log("problemo");
       return [-1, false];
     }
     found = isZeroOG(OG, i, j);
-    console.log(found);
   }
   return [i, j];
 }

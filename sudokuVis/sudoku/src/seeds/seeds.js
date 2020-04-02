@@ -30,6 +30,7 @@ export function getPuzz() {
   flip(seed);
   seed = rotate(seed);
   populate(seed);
+  console.log(seed);
   return seed;
 }
 
