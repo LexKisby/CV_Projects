@@ -21,20 +21,13 @@ const seeds = [
     ["e", ".", ".", ".", ".", ".", ".", "g", "c"],
     [".", ".", "b", ".", "a", ".", ".", ".", "."],
     [".", ".", ".", ".", "d", ".", ".", ".", "i"]
-  ],
-  [
-    [1, 2, 3],
-    [2, 3, 4],
-    [3, 4, 5]
   ]
 ];
 
 export function getPuzz() {
   const idx = Math.floor(Math.random() * seeds.length);
   var seed = seeds[idx].slice();
-  console.log(seed);
   flip(seed);
-  console.log(seed);
   seed = rotate(seed);
   populate(seed);
   return seed;
@@ -44,7 +37,6 @@ function rotate(array) {
   let n = Math.floor(Math.random() * 4);
   for (let i = 0; i < n + 1; i++) {
     array = array[0].map((col, i) => array.map(row => row[i]));
-    console.log(i, array);
     flip(array);
   }
   return array;
